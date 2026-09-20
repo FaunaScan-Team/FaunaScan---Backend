@@ -24,8 +24,7 @@ public class EspecieService {
 
     // US46: buscar especies por nombre comun o cientifico
     public List<Especie> buscar(String texto) {
-        return especieRepository
-                .findByNombreComunContainingIgnoreCaseOrNombreCientificoContainingIgnoreCase(texto, texto);
+        return especieRepository.buscar(texto);
     }
 
     public List<Especie> listarPorFamilia(Long idFamilia) {
