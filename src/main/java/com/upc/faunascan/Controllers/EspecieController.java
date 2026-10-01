@@ -1,7 +1,7 @@
 package com.upc.faunascan.Controllers;
 
-import com.upc.faunascan.Entities.Especie;
 import com.upc.faunascan.Services.EspecieService;
+import com.upc.faunascan.dto.EspecieDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -12,44 +12,43 @@ import java.util.List;
 @RequestMapping("/api/especies")
 @RequiredArgsConstructor
 public class EspecieController {
-
     private final EspecieService especieService;
 
     @GetMapping
-    public List<Especie> listar() {
+    public List<EspecieDTO> listar() {
         return especieService.listar();
     }
 
     // US46: GET /api/especies/buscar?texto=condor
     @GetMapping("/buscar")
-    public List<Especie> buscar(@RequestParam String texto) {
+    public List<EspecieDTO> buscar(@RequestParam String texto) {
         return especieService.buscar(texto);
     }
 
     @GetMapping("/familia/{idFamilia}")
-    public List<Especie> listarPorFamilia(@PathVariable Long idFamilia) {
+    public List<EspecieDTO> listarPorFamilia(@PathVariable Long idFamilia) {
         return especieService.listarPorFamilia(idFamilia);
     }
 
     @GetMapping("/categoria/{idCategoria}")
-    public List<Especie> listarPorCategoria(@PathVariable Long idCategoria) {
+    public List<EspecieDTO> listarPorCategoria(@PathVariable Long idCategoria) {
         return especieService.listarPorCategoria(idCategoria);
     }
 
     @GetMapping("/{id}")
-    public Especie obtener(@PathVariable Long id) {
+    public EspecieDTO obtener(@PathVariable Long id) {
         return especieService.obtenerPorId(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Especie crear(@RequestBody Especie especie) {
-        return especieService.crear(especie);
+    public EspecieDTO crear(@RequestBody EspecieDTO especieDTO) {
+        return especieService.crear(especieDTO);
     }
 
     @PutMapping("/{id}")
-    public Especie actualizar(@PathVariable Long id, @RequestBody Especie especie) {
-        return especieService.actualizar(id, especie);
+    public EspecieDTO actualizar(@PathVariable Long id, @RequestBody EspecieDTO especieDTO) {
+        return especieService.actualizar(id, especieDTO);
     }
 
     @DeleteMapping("/{id}")

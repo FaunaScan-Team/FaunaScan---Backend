@@ -1,7 +1,7 @@
 package com.upc.faunascan.Controllers;
 
-import com.upc.faunascan.Entities.ImagenAvistamiento;
 import com.upc.faunascan.Services.ImagenAvistamientoService;
+import com.upc.faunascan.dto.ImagenAvistamientoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,18 +13,19 @@ import java.util.List;
 @RequestMapping("/api/avistamientos/{idAvistamiento}/imagenes")
 @RequiredArgsConstructor
 public class ImagenAvistamientoController {
-
     private final ImagenAvistamientoService imagenAvistamientoService;
 
     @GetMapping
-    public List<ImagenAvistamiento> listar(@PathVariable Long idAvistamiento) {
+    public List<ImagenAvistamientoDTO> listar(@PathVariable Long idAvistamiento) {
         return imagenAvistamientoService.listarPorAvistamiento(idAvistamiento);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ImagenAvistamiento agregar(@RequestBody ImagenAvistamiento imagen) {
-        return imagenAvistamientoService.agregar(imagen);
+    public ImagenAvistamientoDTO agregar(@PathVariable Long idAvistamiento,
+                                         @RequestBody ImagenAvistamientoDTO imagenDTO) {
+        imagenDTO.setIdAvistamiento(idAvistamiento);
+        return imagenAvistamientoService.agregar(imagenDTO);
     }
 
     @DeleteMapping("/{idImagen}")
