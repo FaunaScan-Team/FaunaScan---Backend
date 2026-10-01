@@ -1,7 +1,7 @@
 package com.upc.faunascan.Controllers;
 
-import com.upc.faunascan.Entities.Notificacion;
 import com.upc.faunascan.Services.NotificacionService;
+import com.upc.faunascan.dto.NotificacionDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,22 +17,22 @@ public class NotificacionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Notificacion crear(@RequestBody Notificacion notificacion) {
-        return notificacionService.crear(notificacion);
+    public NotificacionDTO crear(@RequestBody NotificacionDTO notificacionDTO) {
+        return notificacionService.crear(notificacionDTO);
     }
 
     @GetMapping("/usuario/{idUsuario}")
-    public List<Notificacion> listarPorUsuario(@PathVariable Long idUsuario) {
+    public List<NotificacionDTO> listarPorUsuario(@PathVariable Long idUsuario) {
         return notificacionService.listarPorUsuario(idUsuario);
     }
 
     @GetMapping("/usuario/{idUsuario}/no-leidas")
-    public List<Notificacion> listarNoLeidas(@PathVariable Long idUsuario) {
+    public List<NotificacionDTO> listarNoLeidas(@PathVariable Long idUsuario) {
         return notificacionService.listarNoLeidas(idUsuario);
     }
 
     @PatchMapping("/{id}/leer")
-    public Notificacion marcarLeida(@PathVariable Long id) {
+    public NotificacionDTO marcarLeida(@PathVariable Long id) {
         return notificacionService.marcarLeida(id);
     }
 

@@ -1,7 +1,7 @@
 package com.upc.faunascan.Controllers;
 
-import com.upc.faunascan.Entities.Ubicacion;
 import com.upc.faunascan.Services.UbicacionService;
+import com.upc.faunascan.dto.UbicacionDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,24 +16,24 @@ public class UbicacionController {
     private final UbicacionService ubicacionService;
 
     @GetMapping
-    public List<Ubicacion> listar() {
+    public List<UbicacionDTO> listar() {
         return ubicacionService.listar();
     }
 
     @GetMapping("/{id}")
-    public Ubicacion obtener(@PathVariable Long id) {
+    public UbicacionDTO obtener(@PathVariable Long id) {
         return ubicacionService.obtenerPorId(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Ubicacion crear(@RequestBody Ubicacion ubicacion) {
-        return ubicacionService.crear(ubicacion);
+    public UbicacionDTO crear(@RequestBody UbicacionDTO ubicacionDTO) {
+        return ubicacionService.crear(ubicacionDTO);
     }
 
     @PutMapping("/{id}")
-    public Ubicacion actualizar(@PathVariable Long id, @RequestBody Ubicacion ubicacion) {
-        return ubicacionService.actualizar(id, ubicacion);
+    public UbicacionDTO actualizar(@PathVariable Long id, @RequestBody UbicacionDTO ubicacionDTO) {
+        return ubicacionService.actualizar(id, ubicacionDTO);
     }
 
     @DeleteMapping("/{id}")

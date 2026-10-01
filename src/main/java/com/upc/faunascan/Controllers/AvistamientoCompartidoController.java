@@ -1,7 +1,7 @@
 package com.upc.faunascan.Controllers;
 
-import com.upc.faunascan.Entities.AvistamientoCompartido;
 import com.upc.faunascan.Services.AvistamientoCompartidoService;
+import com.upc.faunascan.dto.AvistamientoCompartidoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,17 +18,17 @@ public class AvistamientoCompartidoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AvistamientoCompartido compartir(@RequestBody AvistamientoCompartido compartido) {
-        return avistamientoCompartidoService.compartir(compartido);
+    public AvistamientoCompartidoDTO compartir(@RequestBody AvistamientoCompartidoDTO compartidoDTO) {
+        return avistamientoCompartidoService.compartir(compartidoDTO);
     }
 
     @GetMapping("/recibidos/{idUsuario}")
-    public List<AvistamientoCompartido> listarRecibidos(@PathVariable Long idUsuario) {
+    public List<AvistamientoCompartidoDTO> listarRecibidos(@PathVariable Long idUsuario) {
         return avistamientoCompartidoService.listarRecibidos(idUsuario);
     }
 
     @GetMapping("/enviados/{idUsuario}")
-    public List<AvistamientoCompartido> listarEnviados(@PathVariable Long idUsuario) {
+    public List<AvistamientoCompartidoDTO> listarEnviados(@PathVariable Long idUsuario) {
         return avistamientoCompartidoService.listarEnviados(idUsuario);
     }
 

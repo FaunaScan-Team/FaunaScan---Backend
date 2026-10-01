@@ -1,7 +1,7 @@
 package com.upc.faunascan.Controllers;
 
-import com.upc.faunascan.Entities.CategoriaConservacion;
 import com.upc.faunascan.Services.CategoriaConservacionService;
+import com.upc.faunascan.dto.CategoriaConservacionDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,24 +16,24 @@ public class CategoriaConservacionController {
     private final CategoriaConservacionService categoriaConservacionService;
 
     @GetMapping
-    public List<CategoriaConservacion> listar() {
+    public List<CategoriaConservacionDTO> listar() {
         return categoriaConservacionService.listar();
     }
 
     @GetMapping("/{id}")
-    public CategoriaConservacion obtener(@PathVariable Long id) {
+    public CategoriaConservacionDTO obtener(@PathVariable Long id) {
         return categoriaConservacionService.obtenerPorId(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CategoriaConservacion crear(@RequestBody CategoriaConservacion categoria) {
-        return categoriaConservacionService.crear(categoria);
+    public CategoriaConservacionDTO crear(@RequestBody CategoriaConservacionDTO categoriaConservacionDTO) {
+        return categoriaConservacionService.crear(categoriaConservacionDTO);
     }
 
     @PutMapping("/{id}")
-    public CategoriaConservacion actualizar(@PathVariable Long id, @RequestBody CategoriaConservacion categoria) {
-        return categoriaConservacionService.actualizar(id, categoria);
+    public CategoriaConservacionDTO actualizar(@PathVariable Long id, @RequestBody CategoriaConservacionDTO categoriaConservacionDTO) {
+        return categoriaConservacionService.actualizar(id, categoriaConservacionDTO);
     }
 
     @DeleteMapping("/{id}")

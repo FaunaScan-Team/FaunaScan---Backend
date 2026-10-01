@@ -1,7 +1,7 @@
 package com.upc.faunascan.Controllers;
 
-import com.upc.faunascan.Entities.Familia;
 import com.upc.faunascan.Services.FamiliaService;
+import com.upc.faunascan.dto.FamiliaDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,24 +16,24 @@ public class FamiliaController {
     private final FamiliaService familiaService;
 
     @GetMapping
-    public List<Familia> listar() {
+    public List<FamiliaDTO> listar() {
         return familiaService.listar();
     }
 
     @GetMapping("/{id}")
-    public Familia obtener(@PathVariable Long id) {
+    public FamiliaDTO obtener(@PathVariable Long id) {
         return familiaService.obtenerPorId(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Familia crear(@RequestBody Familia familia) {
-        return familiaService.crear(familia);
+    public FamiliaDTO crear(@RequestBody FamiliaDTO familiaDTO) {
+        return familiaService.crear(familiaDTO);
     }
 
     @PutMapping("/{id}")
-    public Familia actualizar(@PathVariable Long id, @RequestBody Familia familia) {
-        return familiaService.actualizar(id, familia);
+    public FamiliaDTO actualizar(@PathVariable Long id, @RequestBody FamiliaDTO familiaDTO) {
+        return familiaService.actualizar(id, familiaDTO);
     }
 
     @DeleteMapping("/{id}")

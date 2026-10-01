@@ -1,7 +1,7 @@
 package com.upc.faunascan.Controllers;
 
-import com.upc.faunascan.Entities.Perfil;
 import com.upc.faunascan.Services.PerfilService;
+import com.upc.faunascan.dto.PerfilDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,20 +14,20 @@ public class PerfilController {
     private final PerfilService perfilService;
 
     @GetMapping("/{id}")
-    public Perfil obtener(@PathVariable Long id) {
+    public PerfilDTO obtener(@PathVariable Long id) {
         return perfilService.obtenerPorId(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Perfil crear(@RequestBody Perfil perfil) {
-        return perfilService.crear(perfil);
+    public PerfilDTO crear(@RequestBody PerfilDTO perfilDTO) {
+        return perfilService.crear(perfilDTO);
     }
 
     // US05: editar perfil
     @PutMapping("/{id}")
-    public Perfil actualizar(@PathVariable Long id, @RequestBody Perfil perfil) {
-        return perfilService.actualizar(id, perfil);
+    public PerfilDTO actualizar(@PathVariable Long id, @RequestBody PerfilDTO perfilDTO) {
+        return perfilService.actualizar(id, perfilDTO);
     }
 
     @DeleteMapping("/{id}")

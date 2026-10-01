@@ -1,7 +1,7 @@
 package com.upc.faunascan.Controllers;
 
-import com.upc.faunascan.Entities.Rol;
 import com.upc.faunascan.Services.RolService;
+import com.upc.faunascan.dto.RolDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,24 +16,24 @@ public class RolController {
     private final RolService rolService;
 
     @GetMapping
-    public List<Rol> listar() {
+    public List<RolDTO> listar() {
         return rolService.listar();
     }
 
     @GetMapping("/{id}")
-    public Rol obtener(@PathVariable Long id) {
+    public RolDTO obtener(@PathVariable Long id) {
         return rolService.obtenerPorId(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Rol crear(@RequestBody Rol rol) {
-        return rolService.crear(rol);
+    public RolDTO crear(@RequestBody RolDTO rolDTO) {
+        return rolService.crear(rolDTO);
     }
 
     @PutMapping("/{id}")
-    public Rol actualizar(@PathVariable Long id, @RequestBody Rol rol) {
-        return rolService.actualizar(id, rol);
+    public RolDTO actualizar(@PathVariable Long id, @RequestBody RolDTO rolDTO) {
+        return rolService.actualizar(id, rolDTO);
     }
 
     @DeleteMapping("/{id}")

@@ -1,7 +1,7 @@
 package com.upc.faunascan.Controllers;
 
-import com.upc.faunascan.Entities.AvistamientoFavorito;
 import com.upc.faunascan.Services.AvistamientoFavoritoService;
+import com.upc.faunascan.dto.AvistamientoFavoritoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +17,17 @@ public class AvistamientoFavoritoController {
     private final AvistamientoFavoritoService avistamientoFavoritoService;
 
     @GetMapping
-    public List<AvistamientoFavorito> listar(@PathVariable Long idUsuario) {
+    public List<AvistamientoFavoritoDTO> listar(@PathVariable Long idUsuario) {
         return avistamientoFavoritoService.listarPorUsuario(idUsuario);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AvistamientoFavorito marcar(@RequestBody AvistamientoFavorito favorito) {
-        return avistamientoFavoritoService.marcar(favorito);
+    public AvistamientoFavoritoDTO marcar(@PathVariable Long idUsuario,
+                                          @RequestBody AvistamientoFavoritoDTO favoritoDTO) {
+        // El usuario viene en la ruta: asi el DTO no puede marcar favoritos a nombre de otro.
+        favoritoDTO.setIdUsuario(idUsuario);
+        return avistamientoFavoritoService.marcar(favoritoDTO);
     }
 
     @DeleteMapping("/{idAvistamiento}")

@@ -1,16 +1,16 @@
 package com.upc.faunascan.Controllers;
 
-import com.upc.faunascan.Entities.Usuario;
 import com.upc.faunascan.Services.UsuarioService;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.upc.faunascan.dto.ContrasenaTemporalDTO;
+import com.upc.faunascan.dto.LoginDTO;
+import com.upc.faunascan.dto.RecuperarContrasenaDTO;
+import com.upc.faunascan.dto.UsuarioDTO;
+import com.upc.faunascan.dto.UsuarioRegistroDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -20,43 +20,43 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
 
     @GetMapping
-    public List<Usuario> listar() {
+    public List<UsuarioDTO> listar() {
         return usuarioService.listar();
     }
 
     @GetMapping("/{id}")
-    public Usuario obtener(@PathVariable Long id) {
+    public UsuarioDTO obtener(@PathVariable Long id) {
         return usuarioService.obtenerPorId(id);
     }
 
     // US01: crear cuenta
     @PostMapping("/registro")
     @ResponseStatus(HttpStatus.CREATED)
-    public Usuario registrar(@RequestBody Usuario usuario) {
-        return usuarioService.registrar(usuario);
+    public UsuarioDTO registrar(@RequestBody UsuarioRegistroDTO usuarioRegistroDTO) {
+        return usuarioService.registrar(usuarioRegistroDTO);
     }
 
     // US02: iniciar sesion
     @PostMapping("/login")
-    public Usuario login(@RequestBody LoginRequest request) {
-        return usuarioService.iniciarSesion(request.getCorreo(), request.getContrasena());
+    public UsuarioDTO login(@RequestBody LoginDTO loginDTO) {
+        return usuarioService.iniciarSesion(loginDTO.getCorreo(), loginDTO.getContrasena());
     }
 
     // US03: recuperar contrasena
     @PostMapping("/recuperar-contrasena")
-    public Map<String, String> recuperarContrasena(@RequestBody Map<String, String> body) {
-        String temporal = usuarioService.recuperarContrasena(body.get("correo"));
-        return Map.of("contrasenaTemporal", temporal);
+    public ContrasenaTemporalDTO recuperarContrasena(@RequestBody RecuperarContrasenaDTO recuperarContrasenaDTO) {
+        String temporal = usuarioService.recuperarContrasena(recuperarContrasenaDTO.getCorreo());
+        return new ContrasenaTemporalDTO(temporal);
     }
 
     // US04/US05: ver y editar perfil basico del usuario
     @PutMapping("/{id}")
-    public Usuario actualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
-        return usuarioService.actualizar(id, usuario);
+    public UsuarioDTO actualizar(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO) {
+        return usuarioService.actualizar(id, usuarioDTO);
     }
 
     @PatchMapping("/{id}/estado")
-    public Usuario cambiarEstado(@PathVariable Long id, @RequestParam boolean estado) {
+    public UsuarioDTO cambiarEstado(@PathVariable Long id, @RequestParam boolean estado) {
         return usuarioService.cambiarEstado(id, estado);
     }
 
@@ -64,13 +64,5 @@ public class UsuarioController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void eliminar(@PathVariable Long id) {
         usuarioService.eliminar(id);
-    }
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    static class LoginRequest {
-        private String correo;
-        private String contrasena;
     }
 }
