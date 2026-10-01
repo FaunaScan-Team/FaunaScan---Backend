@@ -5,6 +5,7 @@ import com.upc.faunascan.dto.AvistamientoDTO;
 import com.upc.faunascan.dto.ValidarAvistamientoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,12 +52,14 @@ public class AvistamientoController {
 
     // US45: cola de revision del investigador
     @GetMapping("/pendientes")
+    @PreAuthorize("hasAnyRole('INVESTIGADOR', 'ADMIN')")
     public List<AvistamientoDTO> listarPendientes() {
         return avistamientoService.listarPendientesDeValidacion();
     }
 
     // US45: cola de revision del investigador
     @PatchMapping("/{id}/validar")
+    @PreAuthorize("hasAnyRole('INVESTIGADOR', 'ADMIN')")
     public AvistamientoDTO validar(@PathVariable Long id, @RequestBody ValidarAvistamientoDTO validarDTO) {
         return avistamientoService.validar(id, validarDTO.getIdInvestigador(), validarDTO.getEstado());
     }

@@ -1,5 +1,6 @@
 package com.upc.faunascan.Services;
 
+import com.upc.faunascan.Entities.Rol;
 import com.upc.faunascan.Entities.Usuario;
 import com.upc.faunascan.Repositories.RolRepository;
 import com.upc.faunascan.Repositories.UsuarioRepository;
@@ -7,6 +8,7 @@ import com.upc.faunascan.dto.UsuarioDTO;
 import com.upc.faunascan.dto.UsuarioRegistroDTO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,6 +21,7 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final RolRepository rolRepository;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public List<UsuarioDTO> listar() {
         return usuarioRepository.findAll().stream().map(this::aDTO).toList();
@@ -34,28 +37,17 @@ public class UsuarioService {
             throw new RuntimeException("Ya existe una cuenta registrada con ese correo");
         }
         Usuario usuario = modelMapper.map(dto, Usuario.class);
-        usuario.setRol(rolRepository.findById(dto.getIdRol())
-                .orElseThrow(() -> new RuntimeException("Rol no encontrado con id: " + dto.getIdRol())));
-        // NOTA: en produccion la contrasena debe guardarse con hash (BCrypt),
-        // aqui se guarda tal cual para efectos del alcance del curso.
-        usuario.setContrasena(dto.getContrasena());
+        Rol rol = rolRepository.findById(dto.getIdRol())
+                .orElseThrow(() -> new RuntimeException("Rol no encontrado con id: " + dto.getIdRol()));
+        // el registro es publico, asi que no se permite crear cuentas admin desde aqui
+        if (rol.getNombre().equals("ROLE_ADMIN")) {
+            throw new RuntimeException("No se puede registrar un usuario administrador");
+        }
+        usuario.setRol(rol);
+        usuario.setContrasena(passwordEncoder.encode(dto.getContrasena()));
         usuario.setFechaRegistro(LocalDateTime.now());
         usuario.setEstado(true);
         return aDTO(usuarioRepository.save(usuario));
-    }
-
-    // US02: iniciar sesion
-    public UsuarioDTO iniciarSesion(String correo, String contrasena) {
-        Usuario usuario = usuarioRepository.findByCorreo(correo)
-                .orElseThrow(() -> new RuntimeException("Correo o contrasena incorrectos"));
-
-        if (!usuario.getContrasena().equals(contrasena)) {
-            throw new RuntimeException("Correo o contrasena incorrectos");
-        }
-        if (!Boolean.TRUE.equals(usuario.getEstado())) {
-            throw new RuntimeException("La cuenta se encuentra deshabilitada");
-        }
-        return aDTO(usuario);
     }
 
     // US03: recuperar contrasena (genera una temporal; el envio de correo se
@@ -65,7 +57,7 @@ public class UsuarioService {
                 .orElseThrow(() -> new RuntimeException("No existe una cuenta con ese correo"));
 
         String temporal = UUID.randomUUID().toString().substring(0, 8);
-        usuario.setContrasena(temporal);
+        usuario.setContrasena(passwordEncoder.encode(temporal));
         usuarioRepository.save(usuario);
         return temporal;
     }
