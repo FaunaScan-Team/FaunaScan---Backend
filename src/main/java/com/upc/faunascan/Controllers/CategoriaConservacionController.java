@@ -4,6 +4,7 @@ import com.upc.faunascan.Services.CategoriaConservacionService;
 import com.upc.faunascan.dto.CategoriaConservacionDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,17 +26,20 @@ public class CategoriaConservacionController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public CategoriaConservacionDTO crear(@RequestBody CategoriaConservacionDTO categoriaConservacionDTO) {
         return categoriaConservacionService.crear(categoriaConservacionDTO);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public CategoriaConservacionDTO actualizar(@PathVariable Long id, @RequestBody CategoriaConservacionDTO categoriaConservacionDTO) {
         return categoriaConservacionService.actualizar(id, categoriaConservacionDTO);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void eliminar(@PathVariable Long id) {
         categoriaConservacionService.eliminar(id);

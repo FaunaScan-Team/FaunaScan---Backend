@@ -4,6 +4,7 @@ import com.upc.faunascan.Services.EspecieService;
 import com.upc.faunascan.dto.EspecieDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,17 +42,20 @@ public class EspecieController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public EspecieDTO crear(@RequestBody EspecieDTO especieDTO) {
         return especieService.crear(especieDTO);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public EspecieDTO actualizar(@PathVariable Long id, @RequestBody EspecieDTO especieDTO) {
         return especieService.actualizar(id, especieDTO);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void eliminar(@PathVariable Long id) {
         especieService.eliminar(id);

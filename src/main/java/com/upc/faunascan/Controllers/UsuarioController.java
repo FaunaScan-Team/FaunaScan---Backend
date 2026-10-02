@@ -2,12 +2,12 @@ package com.upc.faunascan.Controllers;
 
 import com.upc.faunascan.Services.UsuarioService;
 import com.upc.faunascan.dto.ContrasenaTemporalDTO;
-import com.upc.faunascan.dto.LoginDTO;
 import com.upc.faunascan.dto.RecuperarContrasenaDTO;
 import com.upc.faunascan.dto.UsuarioDTO;
 import com.upc.faunascan.dto.UsuarioRegistroDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +19,7 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UsuarioDTO> listar() {
         return usuarioService.listar();
     }
@@ -35,12 +36,6 @@ public class UsuarioController {
         return usuarioService.registrar(usuarioRegistroDTO);
     }
 
-    // US02: iniciar sesion
-    @PostMapping("/login")
-    public UsuarioDTO login(@RequestBody LoginDTO loginDTO) {
-        return usuarioService.iniciarSesion(loginDTO.getCorreo(), loginDTO.getContrasena());
-    }
-
     // US03: recuperar contrasena
     @PostMapping("/recuperar-contrasena")
     public ContrasenaTemporalDTO recuperarContrasena(@RequestBody RecuperarContrasenaDTO recuperarContrasenaDTO) {
@@ -55,11 +50,13 @@ public class UsuarioController {
     }
 
     @PatchMapping("/{id}/estado")
+    @PreAuthorize("hasRole('ADMIN')")
     public UsuarioDTO cambiarEstado(@PathVariable Long id, @RequestParam boolean estado) {
         return usuarioService.cambiarEstado(id, estado);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void eliminar(@PathVariable Long id) {
         usuarioService.eliminar(id);
