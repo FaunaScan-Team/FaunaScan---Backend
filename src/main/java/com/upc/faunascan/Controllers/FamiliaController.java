@@ -2,6 +2,7 @@ package com.upc.faunascan.Controllers;
 
 import com.upc.faunascan.Services.FamiliaService;
 import com.upc.faunascan.dto.FamiliaDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,13 +29,13 @@ public class FamiliaController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
-    public FamiliaDTO crear(@RequestBody FamiliaDTO familiaDTO) {
+    public FamiliaDTO crear(@Valid @RequestBody FamiliaDTO familiaDTO) {
         return familiaService.crear(familiaDTO);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public FamiliaDTO actualizar(@PathVariable Long id, @RequestBody FamiliaDTO familiaDTO) {
+    public FamiliaDTO actualizar(@PathVariable Long id, @Valid @RequestBody FamiliaDTO familiaDTO) {
         return familiaService.actualizar(id, familiaDTO);
     }
 

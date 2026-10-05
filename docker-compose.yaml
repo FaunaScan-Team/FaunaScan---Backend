@@ -1,0 +1,42 @@
+# Uso: docker compose up --build
+# Toma DB_PASSWORD y JWT_SECRET del archivo .env de esta carpeta
+services:
+  app:
+    image: 'faunascan-backend:latest'
+    build:
+      context: .
+    container_name: faunascan-app
+    # en AWS Lab la instancia se apaga al terminar la sesion; asi la API vuelve a levantar sola
+    restart: unless-stopped
+    ports:
+      - "6868:8080"
+    networks:
+      - faunascan-network
+    depends_on:
+      - db
+    environment:
+      - DB_URL=jdbc:postgresql://db:5432/FaunaScanDB
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=${DB_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:4200}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+  db:
+    image: postgres:16-alpine
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    restart: always
+    container_name: faunascan-db
+    networks:
+      - faunascan-network
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=FaunaScanDB
+    ports:
+      - "5433:5432"
+volumes:
+  db_data:
+networks:
+  faunascan-network:
+    name: faunascan-network

@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface AvistamientoFavoritoRepository extends JpaRepository<AvistamientoFavorito, Long> {
 
-    // Marcar / desmarcar favoritos (US26, US49)
+    // Marcar / desmarcar favoritos (HU-26)
     List<AvistamientoFavorito> findByUsuario_IdUsuario(Long idUsuario);
 
     Optional<AvistamientoFavorito> findByUsuario_IdUsuarioAndAvistamiento_IdAvistamiento(

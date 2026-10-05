@@ -2,6 +2,8 @@ package com.upc.faunascan.Entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -51,8 +53,8 @@ public class Usuario {
     @Column(name = "url_credencial")
     private String urlCredencial;
 
-    // Campo JSON: se guarda como String; si usas Hibernate 6+ puedes
-    // anotar con @JdbcTypeCode(SqlTypes.JSON) para mapearlo a un objeto/Map.
+    // Campo JSON guardado como String (la columna en Postgres es json)
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "preferencias_notificaciones", columnDefinition = "json")
     private String preferenciasNotificaciones;
 }

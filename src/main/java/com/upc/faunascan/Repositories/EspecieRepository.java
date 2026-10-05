@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface EspecieRepository extends JpaRepository<Especie, Long> {
 
-    // US46: buscador por nombre comun o cientifico
+    // HU-07: buscador por nombre comun o cientifico
     @Query("select e from Especie e where " +
            "lower(e.nombreComun) like lower(concat('%', :texto, '%')) or " +
            "lower(e.nombreCientifico) like lower(concat('%', :texto, '%'))")
@@ -20,4 +20,7 @@ public interface EspecieRepository extends JpaRepository<Especie, Long> {
     List<Especie> findByFamilia_IdFamilia(Long idFamilia);
 
     List<Especie> findByCategoriaConservacion_IdCategoria(Long idCategoria);
+
+    // HU-53: especies con pistas de identificacion para el panel del voluntario
+    List<Especie> findTop5ByPistasIdentificacionIsNotNullOrderByNombreComunAsc();
 }

@@ -15,3 +15,15 @@
 
 ### VS Code ###
 .vscode/
+
+### Build output ###
+target/
+build/
+out/
+.mvn/wrapper/maven-wrapper.jar
+
+### Credenciales ###
+.env
+
+### Logs ###
+logs/

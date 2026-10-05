@@ -2,6 +2,7 @@ package com.upc.faunascan.Controllers;
 
 import com.upc.faunascan.Services.UbicacionService;
 import com.upc.faunascan.dto.UbicacionDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +27,12 @@ public class UbicacionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UbicacionDTO crear(@RequestBody UbicacionDTO ubicacionDTO) {
+    public UbicacionDTO crear(@Valid @RequestBody UbicacionDTO ubicacionDTO) {
         return ubicacionService.crear(ubicacionDTO);
     }
 
     @PutMapping("/{id}")
-    public UbicacionDTO actualizar(@PathVariable Long id, @RequestBody UbicacionDTO ubicacionDTO) {
+    public UbicacionDTO actualizar(@PathVariable Long id, @Valid @RequestBody UbicacionDTO ubicacionDTO) {
         return ubicacionService.actualizar(id, ubicacionDTO);
     }
 

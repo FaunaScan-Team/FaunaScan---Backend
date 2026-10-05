@@ -2,6 +2,8 @@ package com.upc.faunascan.Entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +32,7 @@ public class ImagenAvistamiento {
     private Boolean esPrincipal;
 
     // Resultado del análisis de IA sobre la imagen (JSON)
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "resultado_ia", columnDefinition = "json")
     private String resultadoIa;
 }
