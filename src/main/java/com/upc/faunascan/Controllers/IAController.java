@@ -6,6 +6,7 @@ import com.upc.faunascan.dto.IdentificarEspecieDTO;
 import com.upc.faunascan.dto.ResultadoIdentificacionDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ public class IAController {
     // si se envia idImagen el resultado se guarda en esa imagen del avistamiento
     @PostMapping("/identificar-especie")
     @PreAuthorize("@autorizacion.esDuenoImagen(#dto.idImagen) or hasRole('ADMIN')")
+    @Operation(summary = "Identificar la especie de una fotografía con IA")
     public ResultadoIdentificacionDTO identificarEspecie(@Valid @RequestBody IdentificarEspecieDTO dto) {
         return iaService.identificarEspecie(dto);
     }
@@ -27,6 +29,7 @@ public class IAController {
     // HU-37: precision Top-1 / Top-3 del modelo frente a la meta del 85%
     @GetMapping("/evaluacion")
     @PreAuthorize("hasAnyRole('INVESTIGADOR', 'ADMIN')")
+    @Operation(summary = "Precisión del modelo de IA (solo INVESTIGADOR o ADMIN)")
     public EvaluacionIADTO evaluacion() {
         return iaService.evaluarPrecision();
     }
