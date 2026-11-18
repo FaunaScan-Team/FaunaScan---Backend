@@ -19,6 +19,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -43,12 +44,14 @@ public class AuthController {
     // HU-01: registro de usuario
     @PostMapping("/registrar")
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Registrar un usuario nuevo (HU-01)")
     public UsuarioDTO registrar(@Valid @RequestBody UsuarioRegistroDTO usuarioRegistroDTO) {
         return usuarioService.registrar(usuarioRegistroDTO);
     }
 
     // HU-02/HU-33: inicio de sesion
     @PostMapping("/login")
+    @Operation(summary = "Iniciar sesión y obtener el token JWT (HU-02, HU-33)")
     public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginDTO loginDTO) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDTO.getCorreo(), loginDTO.getContrasena())
@@ -69,6 +72,7 @@ public class AuthController {
 
     // HU-03: recuperar la contrasena
     @PostMapping("/recuperar-password")
+    @Operation(summary = "Recuperar la contraseña con una clave temporal (HU-03)")
     public ContrasenaTemporalDTO recuperarContrasena(@Valid @RequestBody RecuperarContrasenaDTO recuperarContrasenaDTO) {
         String temporal = usuarioService.recuperarContrasena(recuperarContrasenaDTO.getCorreo());
         return new ContrasenaTemporalDTO(temporal);

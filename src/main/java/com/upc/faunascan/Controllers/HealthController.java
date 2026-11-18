@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import io.swagger.v3.oas.annotations.Operation;
 
 // HU-40: estado del backend para el monitoreo de disponibilidad (no requiere token)
 @RestController
@@ -21,6 +22,7 @@ public class HealthController {
     private final DataSource dataSource;
 
     @GetMapping
+    @Operation(summary = "Estado del backend para el monitoreo; no requiere token (HU-40)")
     public ResponseEntity<Map<String, Object>> health() {
         boolean baseDatosOk;
         try (Connection conexion = dataSource.getConnection()) {
