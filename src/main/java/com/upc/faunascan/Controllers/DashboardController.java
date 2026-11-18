@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/api/dashboard")
@@ -19,6 +20,7 @@ public class DashboardController {
     // HU-52: panel principal del investigador
     @GetMapping("/investigador")
     @PreAuthorize("hasRole('INVESTIGADOR')")
+    @Operation(summary = "Panel principal del investigador autenticado (HU-52)")
     public DashboardInvestigadorDTO investigador(Authentication authentication) {
         return dashboardService.panelInvestigador(authentication.getName());
     }
@@ -26,6 +28,7 @@ public class DashboardController {
     // HU-53: panel principal del voluntario
     @GetMapping("/voluntario")
     @PreAuthorize("hasRole('VOLUNTARIO')")
+    @Operation(summary = "Panel principal del voluntario autenticado (HU-53)")
     public DashboardVoluntarioDTO voluntario(Authentication authentication) {
         return dashboardService.panelVoluntario(authentication.getName());
     }

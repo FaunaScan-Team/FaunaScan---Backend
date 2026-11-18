@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import io.swagger.v3.oas.annotations.Operation;
 
 // HU-56: compartir avistamiento con el equipo de investigacion
 @RestController
@@ -24,6 +25,7 @@ public class AvistamientoCompartidoController {
     @PostMapping("/{idAvistamiento}/compartir")
     @PreAuthorize("hasAnyRole('INVESTIGADOR', 'ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Compartir un avistamiento con otro investigador (INVESTIGADOR o ADMIN, HU-56)")
     public AvistamientoCompartidoDTO compartir(@PathVariable Long idAvistamiento,
                                                @Valid @RequestBody AvistamientoCompartidoDTO compartidoDTO,
                                                Authentication authentication) {
@@ -34,12 +36,14 @@ public class AvistamientoCompartidoController {
 
     @GetMapping("/compartidos/recibidos/{idUsuario}")
     @PreAuthorize("@autorizacion.esUsuario(#idUsuario) or hasRole('ADMIN')")
+    @Operation(summary = "Listar los avistamientos compartidos que recibió un usuario")
     public List<AvistamientoCompartidoDTO> listarRecibidos(@PathVariable Long idUsuario) {
         return avistamientoCompartidoService.listarRecibidos(idUsuario);
     }
 
     @GetMapping("/compartidos/enviados/{idUsuario}")
     @PreAuthorize("@autorizacion.esUsuario(#idUsuario) or hasRole('ADMIN')")
+    @Operation(summary = "Listar los avistamientos compartidos que envió un usuario")
     public List<AvistamientoCompartidoDTO> listarEnviados(@PathVariable Long idUsuario) {
         return avistamientoCompartidoService.listarEnviados(idUsuario);
     }
@@ -47,6 +51,7 @@ public class AvistamientoCompartidoController {
     @DeleteMapping("/compartidos/{id}")
     @PreAuthorize("@autorizacion.esOrigenCompartido(#id) or hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Eliminar un avistamiento compartido (quien lo envió o ADMIN)")
     public void eliminar(@PathVariable Long id) {
         avistamientoCompartidoService.eliminar(id);
     }
