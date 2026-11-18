@@ -1,6 +1,7 @@
 package com.upc.faunascan.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,8 @@ public class ReporteDetalleDTO {
     private ReporteDTO reporte;
     private List<ItemBiodiversidadDTO> items;
     private List<ResumenMensualDTO> meses;
+    @Schema(example = "125")
     private Long totalRegistros;
+    @Schema(example = "19")
     private Long totalEspecies;
 }
