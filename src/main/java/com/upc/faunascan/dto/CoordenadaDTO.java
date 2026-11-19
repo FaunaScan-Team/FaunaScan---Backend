@@ -1,5 +1,6 @@
 package com.upc.faunascan.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CoordenadaDTO {
+    @Schema(example = "-15.6122")
     private BigDecimal latitud;
+    @Schema(example = "-71.9060")
     private BigDecimal longitud;
 }
