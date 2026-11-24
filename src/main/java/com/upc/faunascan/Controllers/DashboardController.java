@@ -19,7 +19,7 @@ public class DashboardController {
 
     // HU-52: panel principal del investigador
     @GetMapping("/investigador")
-    @PreAuthorize("hasRole('INVESTIGADOR')")
+    @PreAuthorize("hasAnyRole('INVESTIGADOR', 'ADMIN')")
     @Operation(summary = "Panel principal del investigador autenticado (HU-52)")
     public DashboardInvestigadorDTO investigador(Authentication authentication) {
         return dashboardService.panelInvestigador(authentication.getName());
