@@ -2,6 +2,7 @@ package com.upc.faunascan.Controllers;
 
 import com.upc.faunascan.Services.ReporteService;
 import com.upc.faunascan.dto.*;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,6 +24,7 @@ public class ReporteController {
     private final ReporteService reporteService;
 
     // HU-18: reporte de biodiversidad por area y periodo (?area=&desde=2026-01-01&hasta=2026-09-30)
+    @Operation(summary = "Generar reporte de biodiversidad por área y periodo")
     @GetMapping("/biodiversidad")
     @PreAuthorize("hasAnyRole('INVESTIGADOR', 'ADMIN')")
     public ReporteDetalleDTO biodiversidad(@RequestParam(required = false) String area,
@@ -33,6 +35,7 @@ public class ReporteController {
     }
 
     // HU-19: resumen mensual de biodiversidad
+    @Operation(summary = "Obtener resumen mensual de biodiversidad")
     @GetMapping("/mensuales")
     @PreAuthorize("hasAnyRole('INVESTIGADOR', 'ADMIN')")
     public ReporteDetalleDTO mensuales(Authentication authentication) {
@@ -40,6 +43,7 @@ public class ReporteController {
     }
 
     // HU-57: panel de tendencias y patrones
+    @Operation(summary = "Consultar tendencias y patrones de biodiversidad")
     @GetMapping("/tendencias")
     @PreAuthorize("hasAnyRole('INVESTIGADOR', 'ADMIN')")
     public TendenciasDTO tendencias() {
@@ -47,6 +51,7 @@ public class ReporteController {
     }
 
     // HU-49: mis reportes generados
+    @Operation(summary = "Listar los reportes generados por el usuario")
     @GetMapping("/mios")
     @PreAuthorize("hasAnyRole('INVESTIGADOR', 'ADMIN')")
     public List<ReporteDTO> mios(Authentication authentication) {
@@ -54,6 +59,7 @@ public class ReporteController {
     }
 
     // HU-20: descargar el reporte en PDF
+    @Operation(summary = "Descargar un reporte en formato PDF")
     @GetMapping("/{idReporte}/exportar/pdf")
     @PreAuthorize("@autorizacion.esDuenoReporte(#idReporte) or hasRole('ADMIN')")
     public ResponseEntity<byte[]> exportarPdf(@PathVariable Long idReporte) {
@@ -66,6 +72,7 @@ public class ReporteController {
     }
 
     // HU-46: generar el enlace para compartir un reporte propio
+    @Operation(summary = "Crear un enlace para compartir un reporte")
     @PostMapping("/compartir-link")
     @PreAuthorize("@autorizacion.esDuenoReporte(#dto.idReporte) or hasRole('ADMIN')")
     public EnlaceReporteDTO compartir(@Valid @RequestBody CompartirReporteDTO dto) {
@@ -73,6 +80,7 @@ public class ReporteController {
     }
 
     // HU-46: cualquier usuario autenticado puede abrir un reporte con su enlace
+    @Operation(summary = "Consultar un reporte por enlace compartido")
     @GetMapping("/compartido/{token}")
     public ReporteDetalleDTO verCompartido(@PathVariable String token) {
         return reporteService.verCompartido(token);
