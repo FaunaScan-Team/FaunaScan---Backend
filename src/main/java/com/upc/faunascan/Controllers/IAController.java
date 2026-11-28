@@ -10,7 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-// Identificacion automatica de especies (modelo simulado)
+// Identificacion automatica de especies con Gemini
 @RestController
 @RequestMapping("/api/ia")
 @RequiredArgsConstructor

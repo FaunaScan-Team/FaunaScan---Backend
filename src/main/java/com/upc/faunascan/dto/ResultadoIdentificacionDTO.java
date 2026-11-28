@@ -23,7 +23,7 @@ public class ResultadoIdentificacionDTO {
     private List<SugerenciaEspecieDTO> sugerencias;
     @Schema(example = "Especie identificada con alta confianza")
     private String mensaje;
-    @Schema(example = "FaunaScan-Simulado-v1")
+    @Schema(example = "gemini-3.8-flash")
     private String modelo;
     @Schema(example = "850")
     private Long tiempoProcesamientoMs;
