@@ -43,3 +43,15 @@ INSERT INTO ubicaciones (latitud, longitud, direccion) VALUES (-15.612200, -71.9
 INSERT INTO ubicaciones (latitud, longitud, direccion) VALUES (-5.000000, -74.600000, 'Reserva Nacional Pacaya Samiria, Loreto');
 INSERT INTO ubicaciones (latitud, longitud, direccion) VALUES (-15.800000, -69.800000, 'Reserva Nacional del Titicaca, Puno');
 INSERT INTO ubicaciones (latitud, longitud, direccion) VALUES (-9.120000, -77.600000, 'Parque Nacional Huascarán, Áncash');
+
+-- Fotos de referencia del catálogo (Wikimedia Commons). Este bloque también se puede ejecutar solo en una base ya cargada
+UPDATE especies SET imagen_referencia = 'https://commons.wikimedia.org/wiki/Special:FilePath/Spectacled_Bear_-_Houston_Zoo.jpg?width=640' WHERE nombre_cientifico = 'Tremarctos ornatus';
+UPDATE especies SET imagen_referencia = 'https://commons.wikimedia.org/wiki/Special:FilePath/Colca-condor-c03.jpg?width=640' WHERE nombre_cientifico = 'Vultur gryphus';
+UPDATE especies SET imagen_referencia = 'https://commons.wikimedia.org/wiki/Special:FilePath/Andean_cock-of-the-rock_%28Rupicola_peruvianus_sanguinolentus%29_male_Antioquia.jpg?width=640' WHERE nombre_cientifico = 'Rupicola peruvianus';
+UPDATE especies SET imagen_referencia = 'https://commons.wikimedia.org/wiki/Special:FilePath/Vicugna_vicugna_Salar_de_Chalviri.jpg?width=640' WHERE nombre_cientifico = 'Vicugna vicugna';
+UPDATE especies SET imagen_referencia = 'https://commons.wikimedia.org/wiki/Special:FilePath/Jaguar_%28Panthera_onca_palustris%29_male_Rio_Negro_2.JPG?width=640' WHERE nombre_cientifico = 'Panthera onca';
+UPDATE especies SET imagen_referencia = 'https://commons.wikimedia.org/wiki/Special:FilePath/Giantotter.jpg?width=640' WHERE nombre_cientifico = 'Pteronura brasiliensis';
+UPDATE especies SET imagen_referencia = 'https://commons.wikimedia.org/wiki/Special:FilePath/Spheniscus_humboldti_20070116.jpg?width=640' WHERE nombre_cientifico = 'Spheniscus humboldti';
+UPDATE especies SET imagen_referencia = 'https://commons.wikimedia.org/wiki/Special:FilePath/Red-and-green_macaw_%28Ara_chloropterus%29_juvenile.JPG?width=640' WHERE nombre_cientifico = 'Ara chloropterus';
+UPDATE especies SET imagen_referencia = 'https://commons.wikimedia.org/wiki/Special:FilePath/Inia.jpg?width=640' WHERE nombre_cientifico = 'Inia geoffrensis';
+UPDATE especies SET imagen_referencia = 'https://commons.wikimedia.org/wiki/Special:FilePath/Tapirus_terrestris_1.jpg?width=640' WHERE nombre_cientifico = 'Tapirus terrestris';
